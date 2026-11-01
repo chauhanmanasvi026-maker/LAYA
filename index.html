@@ -1,0 +1,1107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LAYA · Home & Contemplative Rhythm</title>
+  <meta name="description" content="LAYA — a mindful space for your inner rhythm. Emotional check-ins, an intelligent AI companion Manas, Indian wisdom from GYAAN, and a private reflection journal." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- Ambient Sound Floating Toggle -->
+  <div class="ambient-bar" id="ambient-bar">
+    <div class="ambient-pill" onclick="toggleAmbientSound()">
+      <span class="ambient-icon" id="ambient-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M11 5L6 9H2v6h4l5 4V5z"/>
+          <path d="M15.54 8.46a5 5 0 0 1 0 7.07"/>
+          <path d="M19.07 4.93a10 10 0 0 1 0 14.14"/>
+        </svg>
+      </span>
+      <span class="ambient-text" id="ambient-text">Sound: Silence</span>
+      <span class="ambient-wave" id="ambient-wave">
+        <span></span><span></span><span></span>
+      </span>
+    </div>
+    <div class="ambient-selector" id="ambient-selector">
+      <button onclick="setAmbientSound('tanpura', event)" class="active">Tanpura Drone</button>
+      <button onclick="setAmbientSound('bowl', event)">Singing Bowl</button>
+      <button onclick="setAmbientSound('rain', event)">Temple Rain</button>
+      <button onclick="setAmbientSound('om', event)">Om Resonance</button>
+      <button onclick="setAmbientSound('off', event)">Mute</button>
+    </div>
+  </div>
+
+  <!-- Navigation -->
+  <nav class="nav" id="main-nav">
+    <div class="nav-inner">
+      <div class="nav-logo" onclick="showView('home')">
+        <div class="logo-mark">
+          <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" stroke-linecap="round" stroke-linejoin="round">
+            <!-- Cardinal Dots -->
+            <circle cx="50" cy="7" r="3" class="logo-dot-top" fill="#132238"/>
+            <circle cx="50" cy="93" r="3" class="logo-dot-bottom" fill="#D48B38"/>
+            <circle cx="7" cy="50" r="3" class="logo-dot-side" fill="#4FA89B"/>
+            <circle cx="93" cy="50" r="3" class="logo-dot-side" fill="#4FA89B"/>
+
+            <!-- Outer upper navy arch -->
+            <path d="M 13 46 A 38 38 0 0 1 87 46" class="logo-stroke-primary" stroke="#132238" stroke-width="3.4"/>
+
+            <!-- Lower basin cradle / wave -->
+            <path d="M 13 46 C 13 74 31 87 50 87 C 69 87 87 74 87 46 C 74 40 62 55 50 55 C 38 55 26 40 13 46 Z" class="logo-stroke-primary" stroke="#132238" stroke-width="3.4"/>
+
+            <!-- Inner teal cradle ripple -->
+            <path d="M 23 54 C 32 75 68 75 77 54" class="logo-stroke-teal" stroke="#4FA89B" stroke-width="2.6"/>
+
+            <!-- Concentric ripple arches -->
+            <path d="M 26 40 A 24 24 0 0 1 74 40" class="logo-stroke-teal" stroke="#4FA89B" stroke-width="2.8"/>
+            <path d="M 36 40 A 14 14 0 0 1 64 40" class="logo-stroke-gold" stroke="#D48B38" stroke-width="2.8"/>
+            
+            <!-- Central Bindu / Source dot -->
+            <circle cx="50" cy="40" r="4.4" class="logo-fill-gold" fill="#D48B38"/>
+          </svg>
+        </div>
+        <div class="logo-text-wrap">
+          <span class="logo-text">LAYA</span>
+        </div>
+      </div>
+      <div class="nav-links">
+        <button class="nav-link active" onclick="showView('home')" id="nav-home">Home</button>
+        <button class="nav-link" onclick="showView('checkin')" id="nav-checkin">Check In</button>
+        <button class="nav-link" onclick="showView('companion')" id="nav-companion">
+          <span class="pulse-indicator"></span> Manas AI
+        </button>
+        <button class="nav-link" onclick="showView('gyaan')" id="nav-gyaan">Gyaan</button>
+        <button class="nav-link" onclick="showView('journal')" id="nav-journal">Journal</button>
+        <button class="nav-link" onclick="showView('pranayama')" id="nav-pranayama">Prana</button>
+      </div>
+      <div class="nav-actions">
+        <button class="theme-toggle-btn" id="theme-toggle-btn" onclick="toggleTheme()" title="Switch to Dark Theme">
+          <span class="theme-icon" id="theme-icon">🌙</span>
+          <span class="theme-label" id="theme-label">Dark Theme</span>
+        </button>
+        <button class="user-pill-btn" id="nav-user-btn" onclick="handleUserNavClick()" title="Seeker Profile">
+          <span class="user-pill-avatar" id="nav-user-avatar">🪷</span>
+          <span class="user-pill-name" id="nav-user-name">Sign In</span>
+        </button>
+        <button class="settings-btn" onclick="openAiSettingsModal()" title="AI Agent Settings">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+            <circle cx="12" cy="12" r="3"/>
+            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+          </svg>
+          <span class="settings-pill" id="settings-status-pill">AI Ready</span>
+        </button>
+        <button class="nav-mobile-toggle" onclick="toggleMobileMenu()">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+    <div class="nav-mobile-menu" id="mobile-menu">
+      <button onclick="showView('home'); toggleMobileMenu()">Home</button>
+      <button onclick="showView('checkin'); toggleMobileMenu()">Check In</button>
+      <button onclick="showView('companion'); toggleMobileMenu()">Manas AI Companion</button>
+      <button onclick="showView('gyaan'); toggleMobileMenu()">Gyaan Wisdom</button>
+      <button onclick="showView('journal'); toggleMobileMenu()">Journal</button>
+      <button onclick="showView('pranayama'); toggleMobileMenu()">Prana Breathwork</button>
+      <button onclick="toggleTheme(); toggleMobileMenu()" id="mobile-theme-btn">🌙 Dark Theme</button>
+      <button onclick="handleUserNavClick(); toggleMobileMenu()" id="mobile-user-link">Seeker Profile / Sign In</button>
+      <button onclick="openAiSettingsModal(); toggleMobileMenu()">AI Agent Settings</button>
+    </div>
+  </nav>
+
+  <!-- ======================== HOME VIEW ======================== -->
+  <div id="view-home" class="view active">
+    <!-- Hero Section -->
+    <section class="hero tile-texture-layer">
+      <div class="hero-bg">
+        <div class="hero-orb hero-orb-1"></div>
+        <div class="hero-orb hero-orb-2"></div>
+        <div class="hero-orb hero-orb-3"></div>
+        <!-- Pressed Glass Tile Mandala Motif -->
+        <div class="hero-glass-mandala">
+          <svg viewBox="0 0 300 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <g stroke="currentColor" stroke-width="0.8" opacity="0.35">
+              <circle cx="150" cy="150" r="140" stroke-dasharray="2 4"/>
+              <circle cx="150" cy="150" r="110"/>
+              <circle cx="150" cy="150" r="80"/>
+              <circle cx="150" cy="150" r="50"/>
+              <circle cx="150" cy="150" r="20"/>
+              <!-- Quatrefoil Petals -->
+              <path d="M150 40 Q180 90 260 150 Q180 210 150 260 Q120 210 40 150 Q120 90 150 40Z"/>
+              <path d="M72 72 Q150 110 228 72 Q190 150 228 228 Q150 190 72 228 Q110 150 72 72Z"/>
+              <path d="M150 10 L150 290 M10 150 L290 150" stroke-width="0.5" stroke-dasharray="4 6"/>
+            </g>
+          </svg>
+        </div>
+      </div>
+
+      <div class="hero-content">
+        <div class="hero-cta">
+          <button class="btn-primary" onclick="showView('checkin')">
+            <span>Begin Check-In</span>
+            <svg viewBox="0 0 20 20" fill="none"><path d="M4 10h12m-5-5l5 5-5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+          </button>
+          <button class="btn-glass" onclick="showView('companion')">
+            <span class="ai-dot"></span>
+            <span>Talk to Manas AI</span>
+          </button>
+          <button class="btn-ghost" onclick="showView('pranayama')">
+            <span>Prana Breath</span>
+          </button>
+        </div>
+
+        <!-- Live Status Bar -->
+        <div class="hero-status-strip" id="hero-status-strip">
+          <div class="status-item" id="status-checkin">
+            <span class="status-icon">●</span>
+            <span id="status-checkin-text">Today: No check-in yet</span>
+          </div>
+          <div class="status-divider">·</div>
+          <div class="status-item" id="status-wisdom">
+            <span class="status-icon">🪷</span>
+            <span>Daily Gyaan: Chandogya Upanishad</span>
+          </div>
+          <div class="status-divider">·</div>
+          <div class="status-item" id="status-ambient">
+            <span class="status-icon">♫</span>
+            <span id="status-ambient-text">Audio: Tanpura ready</span>
+          </div>
+        </div>
+
+        <div class="hero-quote-box">
+          <div class="quote-devanagari">लयो नाम मनसो विश्रान्तिः</div>
+          <p class="quote-text" id="hero-rotating-quote">
+            "Laya is the natural resting of the mind in its own silent sanctuary."
+          </p>
+          <span class="quote-author">— Yoga Vasistha</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Four Pillars Grid -->
+    <section class="features">
+      <div class="section-header">
+        <span class="section-tag">THE ARCHITECTURE OF CALM</span>
+        <h2 class="section-title">Four sacred practices, unified</h2>
+        <p class="section-subtitle">Designed with the antique elegance of pressed glass tiles and the depth of classical Indian philosophy.</p>
+      </div>
+
+      <div class="features-grid">
+        <!-- 1. Emotional Check-In -->
+        <div class="feature-card glass-card" onclick="showView('checkin')">
+          <div class="feature-card-glow"></div>
+          <div class="feature-icon emerald-icon">
+            <svg viewBox="0 0 44 44" fill="none">
+              <circle cx="22" cy="22" r="20" stroke="currentColor" stroke-width="1.2"/>
+              <path d="M22 10 C22 10 32 17 32 24 C32 29.5 27.5 34 22 34 C16.5 34 12 29.5 12 24 C12 17 22 10 22 10Z" stroke="currentColor" stroke-width="1.4"/>
+              <circle cx="22" cy="24" r="3.5" fill="currentColor" opacity="0.6"/>
+            </svg>
+          </div>
+          <div class="feature-meta">AWARENESS</div>
+          <h3 class="feature-title">Emotional Check-In</h3>
+          <p class="feature-desc">Map your daily emotional weather across 12 nuanced states and intensity levels. Priya AI learns your rhythm.</p>
+          <div class="feature-footer">
+            <span class="feature-action">Check in now</span>
+            <span class="feature-arrow">&#8594;</span>
+          </div>
+        </div>
+
+        <!-- 2. AI Companion -->
+        <div class="feature-card glass-card active-card" onclick="showView('companion')">
+          <div class="feature-card-glow indigo-glow"></div>
+          <div class="feature-icon indigo-icon">
+            <svg viewBox="0 0 44 44" fill="none">
+              <path d="M9 14 Q9 9 14 9 L30 9 Q35 9 35 14 L35 26 Q35 31 30 31 L24 31 L18 37 L18 31 L14 31 Q9 31 9 26 Z" stroke="currentColor" stroke-width="1.4"/>
+              <circle cx="17" cy="20" r="2" fill="currentColor"/>
+              <circle cx="22" cy="20" r="2" fill="currentColor"/>
+              <circle cx="27" cy="20" r="2" fill="currentColor"/>
+            </svg>
+          </div>
+          <div class="feature-meta">INTELLIGENT COMPANION</div>
+          <h3 class="feature-title">Priya AI Guide</h3>
+          <p class="feature-desc">An active listener blending cognitive empathy, Upanishadic insight, and customized reflection. Direct Gemini AI ready.</p>
+          <div class="feature-footer">
+            <span class="feature-action">Speak with Priya</span>
+            <span class="feature-arrow">&#8594;</span>
+          </div>
+        </div>
+
+        <!-- 3. Gyaan Wisdom -->
+        <div class="feature-card glass-card" onclick="showView('gyaan')">
+          <div class="feature-card-glow gold-glow"></div>
+          <div class="feature-icon gold-icon">
+            <svg viewBox="0 0 44 44" fill="none">
+              <path d="M22 6 L25 15 L34 15 L27 21 L30 30 L22 24 L14 30 L17 21 L10 15 L19 15 Z" stroke="currentColor" stroke-width="1.4"/>
+              <circle cx="22" cy="22" r="18" stroke="currentColor" stroke-width="0.8" stroke-dasharray="3 3"/>
+            </svg>
+          </div>
+          <div class="feature-meta">TIMELESS TEACHINGS</div>
+          <h3 class="feature-title">Gyaan · Wisdom Library</h3>
+          <p class="feature-desc">Curated verses from the Bhagavad Gita, Upanishads, Patanjali Sutras, and Buddhist texts with audio pronunciation & contemplation.</p>
+          <div class="feature-footer">
+            <span class="feature-action">Explore library</span>
+            <span class="feature-arrow">&#8594;</span>
+          </div>
+        </div>
+
+        <!-- 4. Reflection Journal -->
+        <div class="feature-card glass-card" onclick="showView('journal')">
+          <div class="feature-card-glow pewter-glow"></div>
+          <div class="feature-icon pewter-icon">
+            <svg viewBox="0 0 44 44" fill="none">
+              <rect x="9" y="7" width="26" height="30" rx="3" stroke="currentColor" stroke-width="1.4"/>
+              <path d="M14 7 L14 37" stroke="currentColor" stroke-width="1.4"/>
+              <line x1="18" y1="16" x2="30" y2="16" stroke="currentColor" stroke-width="1.2"/>
+              <line x1="18" y1="21" x2="30" y2="21" stroke="currentColor" stroke-width="1.2"/>
+              <line x1="18" y1="26" x2="25" y2="26" stroke="currentColor" stroke-width="1.2"/>
+            </svg>
+          </div>
+          <div class="feature-meta">PRIVATE SANCTUARY</div>
+          <h3 class="feature-title">Reflection Journal</h3>
+          <p class="feature-desc">Encrypted in your browser storage. Ask Priya AI to generate a compassionate commentary or Ayurvedic perspective on your notes.</p>
+          <div class="feature-footer">
+            <span class="feature-action">Open notebook</span>
+            <span class="feature-arrow">&#8594;</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Daily Wisdom Banner -->
+    <section class="wisdom-banner tile-texture">
+      <div class="wisdom-banner-inner">
+        <div class="wisdom-decor">
+          <div class="wisdom-devanagari">ज्ञान</div>
+          <div class="wisdom-ring"></div>
+        </div>
+        <div class="wisdom-content">
+          <span class="wisdom-badge">FEATURED VERS OF THE DAY</span>
+          <p class="wisdom-devanagari-verse" id="home-devanagari-verse">कर्मण्येवाधिकारस्ते मा फलेषु कदाचन</p>
+          <blockquote class="wisdom-text" id="home-daily-wisdom">
+            "You have a right to your sacred action alone, never to its fruit. Live with dedicated grace, free from anxiety about outcome."
+          </blockquote>
+          <p class="wisdom-source">— Bhagavad Gita, Chapter 2, Verse 47</p>
+        </div>
+        <div class="wisdom-action-group">
+          <button class="btn-glass" onclick="readAloudWisdom()">
+            <svg viewBox="0 0 20 20" fill="none" style="width:16px;height:16px"><path d="M9 4L5 7H2v6h3l4 3V4z" stroke="currentColor" stroke-width="1.5"/><path d="M13 7a4 4 0 010 6" stroke="currentColor" stroke-width="1.5"/></svg>
+            <span>Chant</span>
+          </button>
+          <button class="btn-primary" onclick="showView('gyaan')">Study Verse</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Quick Pranayama Breathwork Widget -->
+    <section class="ritual">
+      <div class="section-header">
+        <span class="section-tag">PRANA FLOW</span>
+        <h2 class="section-title">One mindful breath right now</h2>
+        <p class="section-subtitle">A 60-second nervous system reset before you continue your day.</p>
+      </div>
+
+      <div class="quick-prana-card glass-card">
+        <div class="prana-circle-wrap">
+          <div class="prana-circle" id="prana-circle">
+            <div class="prana-inner-circle">
+              <span class="prana-state-text" id="prana-quick-text">Inhale</span>
+              <span class="prana-timer-text" id="prana-quick-timer">4s</span>
+            </div>
+          </div>
+        </div>
+        <div class="prana-controls">
+          <div class="prana-instruction" id="prana-quick-instruction">Breathe in through the nostrils, filling the lower belly...</div>
+          <div class="prana-btns">
+            <button class="btn-primary" id="prana-quick-toggle" onclick="toggleQuickPrana()">Start 1-Min Prana</button>
+            <button class="btn-ghost" onclick="showView('pranayama')">Full Breath Studio &#8594;</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="footer-inner">
+        <div class="footer-brand" onclick="showView('home')" style="cursor:pointer;">
+          <div class="footer-logo-row">
+            <div class="logo-mark" style="width:34px;height:34px;">
+              <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" stroke-linecap="round" stroke-linejoin="round">
+                <!-- Cardinal Dots -->
+                <circle cx="50" cy="7" r="3.2" class="logo-dot-top" fill="#60A5FA"/>
+                <circle cx="50" cy="93" r="3.2" class="logo-dot-bottom" fill="#F5D061"/>
+                <circle cx="7" cy="50" r="3.2" class="logo-dot-side" fill="#38BDF8"/>
+                <circle cx="93" cy="50" r="3.2" class="logo-dot-side" fill="#38BDF8"/>
+
+                <!-- Outer upper arch -->
+                <path d="M 13 46 A 37 37 0 0 1 87 46" class="logo-stroke-primary" stroke="white" stroke-width="3.4"/>
+
+                <!-- Lower cradle / wave -->
+                <path d="M 13 46 C 13 74 31 87 50 87 C 69 87 87 74 87 46 C 74 40 62 55 50 55 C 38 55 26 40 13 46 Z" class="logo-stroke-primary" stroke="white" stroke-width="3.4"/>
+
+                <!-- Inner cradle ripple -->
+                <path d="M 23 54 C 32 75 68 75 77 54" class="logo-stroke-teal" stroke="#38BDF8" stroke-width="2.6"/>
+
+                <!-- Concentric ripple arches -->
+                <path d="M 26 40 A 24 24 0 0 1 74 40" class="logo-stroke-teal" stroke="#38BDF8" stroke-width="2.8"/>
+                <path d="M 36 40 A 14 14 0 0 1 64 40" class="logo-stroke-gold" stroke="#F5D061" stroke-width="2.8"/>
+                
+                <!-- Central Bindu / Source dot -->
+                <circle cx="50" cy="40" r="4.4" class="logo-fill-gold" fill="#F5D061"/>
+              </svg>
+            </div>
+            <span class="logo-text" style="color:white;letter-spacing:0.16em;">LAYA</span>
+          </div>
+          <p class="footer-tagline">A sanctuary for the inner rhythm</p>
+        </div>
+        <div class="footer-links">
+          <button onclick="showView('checkin')">Check-In</button>
+          <button onclick="showView('companion')">Priya AI</button>
+          <button onclick="showView('gyaan')">Gyaan Library</button>
+          <button onclick="showView('journal')">Journal</button>
+          <button onclick="openAiSettingsModal()">AI Settings</button>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>Private & secure · In-browser encryption · Inspired by antique embossed botanical glass</p>
+      </div>
+    </footer>
+  </div>
+
+  <!-- ======================== CHECK-IN VIEW ======================== -->
+  <div id="view-checkin" class="view">
+    <div class="view-container">
+      <div class="view-header">
+        <button class="back-btn" onclick="showView('home')">&larr; Return to Sanctuary</button>
+        <span class="section-tag">STEP INTO AWARENESS</span>
+        <h2 class="view-title">Emotional Check-In</h2>
+        <p class="view-subtitle" id="checkin-time-display">How is your internal climate right now?</p>
+      </div>
+
+      <!-- Step 1: Emotion Selection -->
+      <div class="checkin-step" id="checkin-step-1">
+        <div class="step-header-bar">
+          <span class="step-badge">1 OF 3 · RECOGNITION</span>
+          <span class="step-hint">Click what resonates closest</span>
+        </div>
+        <div class="emotion-grid" id="emotion-grid"></div>
+      </div>
+
+      <!-- Step 2: Intensity -->
+      <div class="checkin-step hidden" id="checkin-step-2">
+        <div class="step-header-bar">
+          <span class="step-badge">2 OF 3 · INTENSITY</span>
+          <button class="step-back-link" onclick="goToCheckinStep(1)">&larr; Change feeling</button>
+        </div>
+        <h3 class="step-question">How strongly is <span id="selected-emotion-name" class="emotion-highlight">this feeling</span> echoing in you?</h3>
+        <div class="intensity-slider-container glass-card">
+          <div class="intensity-labels">
+            <span>A gentle whisper (1)</span>
+            <span>Balanced presence (5)</span>
+            <span>Overpowering current (10)</span>
+          </div>
+          <input type="range" id="intensity-slider" class="intensity-slider" min="1" max="10" value="5" oninput="updateIntensityDisplay(this.value)" />
+          <div class="intensity-display" id="intensity-display">5</div>
+          <div class="intensity-description" id="intensity-description">Moderately present in body and mind</div>
+        </div>
+        <div class="step-nav-row">
+          <button class="btn-ghost" onclick="goToCheckinStep(1)">Back</button>
+          <button class="btn-primary" onclick="goToCheckinStep(3)">Continue &rarr;</button>
+        </div>
+      </div>
+
+      <!-- Step 3: Reflection Note -->
+      <div class="checkin-step hidden" id="checkin-step-3">
+        <div class="step-header-bar">
+          <span class="step-badge">3 OF 3 · CONTEXT</span>
+          <button class="step-back-link" onclick="goToCheckinStep(2)">&larr; Back to intensity</button>
+        </div>
+        <h3 class="step-question">Would you like to give it a few words? <span class="optional">(optional)</span></h3>
+        <textarea id="checkin-note" class="checkin-textarea" placeholder="What circumstance or thought triggered this current? E.g., 'Work deadlines piling up', 'A kind conversation with a friend', 'Physical restlessness'..." rows="4"></textarea>
+        <div class="step-nav-row">
+          <button class="btn-ghost" onclick="goToCheckinStep(2)">Back</button>
+          <button class="btn-primary" onclick="submitCheckin()">Save Check-In</button>
+        </div>
+      </div>
+
+      <!-- Result Screen -->
+      <div class="checkin-step hidden" id="checkin-result">
+        <div class="checkin-result-container glass-card">
+          <div class="result-badge-wrap">
+            <div class="result-icon-large" id="result-icon">🌿</div>
+            <div class="result-glow"></div>
+          </div>
+          <h3 class="result-title" id="result-title">Acknowledged & Welcomed</h3>
+          <p class="result-message" id="result-message"></p>
+          <div class="result-wisdom-box" id="result-wisdom"></div>
+          <div class="result-actions">
+            <button class="btn-primary" onclick="talkToPriyaAboutMood()">
+              <span class="ai-dot"></span>
+              Discuss with Priya AI
+            </button>
+            <button class="btn-glass" onclick="writeJournalFromCheckin()">
+              Reflect in Journal
+            </button>
+            <button class="btn-ghost" onclick="resetCheckin()">
+              Check In Again
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Recent History Strip -->
+      <div class="checkin-history-section">
+        <div class="history-header">
+          <h4 class="history-title">Your Emotional Journey</h4>
+          <span class="history-sub" id="history-count-badge">0 logged</span>
+        </div>
+        <div id="history-list" class="history-list"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================== COMPANION VIEW ======================== -->
+  <div id="view-companion" class="view">
+    <div class="companion-layout">
+      <!-- Top Companion Header -->
+      <div class="companion-header">
+        <button class="back-btn" onclick="showView('home')">&larr; Back</button>
+        <div class="companion-identity">
+          <div class="companion-avatar-wrap">
+            <div class="companion-avatar">
+              <svg viewBox="0 0 40 40" fill="none">
+                <circle cx="20" cy="20" r="19" stroke="currentColor" stroke-width="0.8"/>
+                <path d="M20 7 Q29 13 29 22 Q29 31 20 35 Q11 31 11 22 Q11 13 20 7Z" fill="currentColor" opacity="0.18"/>
+                <circle cx="20" cy="20" r="5" fill="currentColor" opacity="0.5"/>
+                <circle cx="20" cy="20" r="2" fill="currentColor"/>
+              </svg>
+            </div>
+            <span class="status-dot"></span>
+          </div>
+          <div>
+            <div class="companion-name-row">
+              <span class="companion-name">Priya</span>
+              <span class="companion-ai-tag" id="companion-ai-tag">Built-in AI</span>
+            </div>
+            <span class="companion-status">Holding space for your thoughts & feelings</span>
+          </div>
+        </div>
+        <div class="companion-actions">
+          <button class="icon-tool-btn" onclick="openAiSettingsModal()" title="AI Engine Settings">
+            <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="10" cy="10" r="3"/><path d="M16 10a6 6 0 11-12 0 6 6 0 0112 0z"/></svg>
+            <span class="btn-label-desktop">Settings</span>
+          </button>
+          <button class="icon-tool-btn" onclick="clearChatHistory()" title="Clear Conversation">
+            <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 6h14m-2 0v10a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a1 1 0 011-1h4a1 1 0 011 1v2"/></svg>
+            <span class="btn-label-desktop">Clear</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Active Context Pill (shows check-in state) -->
+      <div class="companion-context-bar" id="companion-context-bar" style="display:none;">
+        <span class="context-pill" id="context-pill-content"></span>
+      </div>
+
+      <!-- Chat Messages Window -->
+      <div class="chat-window" id="chat-window">
+        <!-- Rendered dynamically -->
+      </div>
+
+      <!-- Quick Suggestion Chips -->
+      <div class="chat-suggestions-wrap">
+        <div class="chat-suggestions" id="chat-suggestions"></div>
+      </div>
+
+      <!-- Input Area -->
+      <div class="chat-input-area">
+        <div class="chat-input-box glass-card">
+          <textarea id="chat-input" class="chat-input" placeholder="Share what is unfolding in your mind or heart..." rows="1" onkeydown="handleChatKey(event)" oninput="autoResizeChatInput(this)"></textarea>
+          <div class="chat-btn-group">
+            <button class="chat-voice-btn" onclick="toggleVoiceInput()" id="chat-voice-btn" title="Voice Dictation">
+              <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M10 2a3 3 0 0 0-3 3v5a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z"/>
+                <path d="M16 8v2a6 6 0 0 1-12 0V8"/>
+                <line x1="10" y1="16" x2="10" y2="19"/>
+              </svg>
+            </button>
+            <button class="chat-send-btn" onclick="sendMessage()" id="chat-send-btn" title="Send message">
+              <svg viewBox="0 0 24 24" fill="none">
+                <path d="M22 2L11 13" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                <path d="M22 2L15 22L11 13L2 9L22 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+        <p class="chat-disclaimer">
+          Priya is a compassionate wellness AI rooted in contemplative wisdom, not a clinical healthcare provider.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================== GYAAN VIEW ======================== -->
+  <div id="view-gyaan" class="view">
+    <div class="view-container">
+      <div class="view-header">
+        <button class="back-btn" onclick="showView('home')">&larr; Return to Sanctuary</button>
+        <span class="section-tag">PHILOSOPHICAL ANCHOR</span>
+        <h2 class="view-title">Gyaan · Sacred Library</h2>
+        <p class="view-subtitle">Verses on non-attachment, witnessing consciousness, and the art of stillness.</p>
+      </div>
+
+      <!-- Featured Spotlight Card -->
+      <div class="gyaan-featured glass-card tile-texture">
+        <div class="gyaan-featured-badge-row">
+          <span class="gyaan-featured-badge">SPOTLIGHT CONTEMPLATION</span>
+          <button class="audio-listen-btn" onclick="listenFeaturedWisdom()">
+            <svg viewBox="0 0 20 20" fill="none"><path d="M8 5L4 8H1v4h3l4 3V5z" stroke="currentColor" stroke-width="1.5"/><path d="M12 7a3 3 0 010 6" stroke="currentColor" stroke-width="1.5"/></svg>
+            <span>Pronounce Verse</span>
+          </button>
+        </div>
+        <div class="gyaan-featured-devanagari" id="gyaan-featured-devanagari">कर्मण्येवाधिकारस्ते मा फलेषु कदाचन</div>
+        <p class="gyaan-featured-text" id="gyaan-featured-text">"You have a right to your prescribed duty alone, never to the fruits thereof."</p>
+        <p class="gyaan-featured-translation" id="gyaan-featured-translation">Act with totality, then let go. The anxiety dissolves when you surrender attachment to the outcome.</p>
+        <p class="gyaan-featured-source" id="gyaan-featured-source">— Bhagavad Gita 2.47 · Karma Yoga</p>
+        <div class="gyaan-featured-reflection" id="gyaan-featured-reflection">
+          ✦ What project or relationship are you trying to micromanage right now? What would happen if you focused only on your loving effort?
+        </div>
+        <div class="gyaan-featured-actions">
+          <button class="btn-primary" onclick="talkToPriyaAboutVerse()">Reflect with Priya AI</button>
+          <button class="btn-glass" onclick="refreshDailyWisdom()">New Wisdom &#8635;</button>
+        </div>
+      </div>
+
+      <!-- Filters & Search -->
+      <div class="gyaan-controls">
+        <div class="gyaan-filters">
+          <button class="gyaan-filter active" onclick="filterGyaan('all', this)">All Verses</button>
+          <button class="gyaan-filter" onclick="filterGyaan('bhagavad-gita', this)">Bhagavad Gita</button>
+          <button class="gyaan-filter" onclick="filterGyaan('upanishads', this)">Upanishads</button>
+          <button class="gyaan-filter" onclick="filterGyaan('yoga', this)">Patanjali Sutras</button>
+          <button class="gyaan-filter" onclick="filterGyaan('vedas', this)">Vedas & Shanti</button>
+          <button class="gyaan-filter" onclick="filterGyaan('buddha', this)">Buddhist Dhamma</button>
+        </div>
+        <div class="gyaan-search-wrap">
+          <input type="text" id="gyaan-search" class="gyaan-search" placeholder="Search verses, tags, concepts..." oninput="handleGyaanSearch(this.value)" />
+        </div>
+      </div>
+
+      <!-- Grid -->
+      <div class="gyaan-grid" id="gyaan-grid"></div>
+    </div>
+  </div>
+
+  <!-- ======================== JOURNAL VIEW ======================== -->
+  <div id="view-journal" class="view">
+    <div class="journal-layout">
+      <!-- Sidebar -->
+      <div class="journal-sidebar">
+        <div class="sidebar-header">
+          <button class="back-btn" onclick="showView('home')">&larr; Sanctuary</button>
+          <div class="sidebar-title-row">
+            <h3 class="sidebar-title">Reflections</h3>
+            <span class="sidebar-count" id="journal-count-badge">0</span>
+          </div>
+        </div>
+        <button class="new-entry-btn" onclick="newJournalEntry()">
+          <span class="plus-icon">+</span>
+          <span>New Reflection</span>
+        </button>
+        <div class="journal-entries-list" id="journal-entries-list"></div>
+      </div>
+
+      <!-- Editor Panel -->
+      <div class="journal-editor">
+        <!-- Empty State -->
+        <div class="editor-empty" id="editor-empty">
+          <div class="editor-empty-icon">
+            <svg viewBox="0 0 64 64" fill="none">
+              <rect x="12" y="8" width="40" height="48" rx="4" stroke="currentColor" stroke-width="1.2"/>
+              <path d="M20 8 L20 56" stroke="currentColor" stroke-width="1.2"/>
+              <line x1="26" y1="20" x2="44" y2="20" stroke="currentColor" stroke-width="1"/>
+              <line x1="26" y1="28" x2="44" y2="28" stroke="currentColor" stroke-width="1"/>
+              <line x1="26" y1="36" x2="36" y2="36" stroke="currentColor" stroke-width="1"/>
+            </svg>
+          </div>
+          <h3 class="editor-empty-title">A blank page for your heart</h3>
+          <p class="editor-empty-sub">Select an existing reflection or begin fresh. Your words are stored privately in your browser.</p>
+          <button class="btn-primary" onclick="newJournalEntry()">Begin Writing</button>
+        </div>
+
+        <!-- Active Editor -->
+        <div class="editor-active hidden" id="editor-active">
+          <div class="editor-toolbar">
+            <input type="text" id="entry-title" class="entry-title-input" placeholder="Title your reflection..." />
+            <div class="editor-meta-bar">
+              <span id="entry-date-display" class="entry-date-badge"></span>
+              <div class="editor-actions">
+                <button class="editor-tool-btn ai-reflect-btn" onclick="askPriyaToReflectOnEntry()" title="Ask Priya AI to reflect on this journal entry">
+                  <span class="ai-sparkle">✦</span>
+                  <span>Ask Priya AI</span>
+                </button>
+                <button class="editor-tool-btn" onclick="saveEntry()" title="Save Entry">
+                  <span>Save</span>
+                </button>
+                <button class="editor-tool-btn delete-btn" onclick="deleteEntry()" title="Delete">
+                  <span>Delete</span>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Prompt Box -->
+          <div class="editor-prompt-card" id="editor-prompt-card">
+            <div class="prompt-icon">🪷</div>
+            <div class="prompt-text" id="editor-prompt"></div>
+            <button class="prompt-refresh" onclick="cycleJournalPrompt()" title="Try another prompt">&#8635;</button>
+          </div>
+
+          <textarea id="entry-body" class="entry-body" placeholder="Write freely without editing yourself. What is present in you right now?"></textarea>
+
+          <!-- Priya's AI Reflection Container (Appears when user clicks Ask Priya AI) -->
+          <div class="priya-reflection-box hidden" id="priya-reflection-box">
+            <div class="priya-reflection-header">
+              <span class="priya-tag">✦ PRIYA'S REFLECTION & WISDOM</span>
+              <button class="close-reflection-btn" onclick="closePriyaReflection()">✕</button>
+            </div>
+            <div class="priya-reflection-text" id="priya-reflection-text"></div>
+          </div>
+
+          <div class="editor-footer">
+            <div class="footer-stats">
+              <span id="word-count" class="word-count">0 words</span>
+              <span class="stats-divider">·</span>
+              <span id="char-count" class="char-count">0 characters</span>
+            </div>
+            <span class="editor-saved-indicator" id="saved-indicator">Auto-saved</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================== PRANAYAMA VIEW ======================== -->
+  <div id="view-pranayama" class="view">
+    <div class="view-container pranayama-container">
+      <div class="view-header text-center">
+        <button class="back-btn" onclick="showView('home')">&larr; Return to Sanctuary</button>
+        <span class="section-tag">ANCIENT BREATHWORK</span>
+        <h2 class="view-title">Pranayama Studio</h2>
+        <p class="view-subtitle">Rhythmic breathing modulates your autonomic nervous system.</p>
+      </div>
+
+      <!-- Pranayama Mode Selector -->
+      <div class="pranayama-modes">
+        <button class="prana-mode-btn active" onclick="setPranaMode('box', this)">
+          <strong>Box Breathing (Sama Vritti)</strong>
+          <span>4-4-4-4 · For Calm Focus & Stability</span>
+        </button>
+        <button class="prana-mode-btn" onclick="setPranaMode('relax', this)">
+          <strong>4-7-8 Deep Rest</strong>
+          <span>4-7-8 · For Anxiety & Sleep</span>
+        </button>
+        <button class="prana-mode-btn" onclick="setPranaMode('nadi', this)">
+          <strong>Nadi Shodhana Cadence</strong>
+          <span>4-4-6 · For Channel Cleansing</span>
+        </button>
+      </div>
+
+      <!-- Visual Breathing Mandala -->
+      <div class="pranayama-stage glass-card tile-texture">
+        <div class="mandala-outer-ring"></div>
+        <div class="mandala-middle-ring"></div>
+        <div class="mandala-core" id="mandala-core">
+          <div class="mandala-phase" id="mandala-phase">Inhale</div>
+          <div class="mandala-counter" id="mandala-counter">4</div>
+          <div class="mandala-sub" id="mandala-sub">Through the nose</div>
+        </div>
+      </div>
+
+      <div class="prana-controls-row">
+        <button class="btn-primary prana-main-btn" id="prana-session-toggle" onclick="togglePranaSession()">
+          Start Breathing Session
+        </button>
+        <div class="prana-session-stats">
+          <span>Completed cycles: <strong id="prana-cycles-count">0</strong></span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================== AUTH VIEW (SIGN IN / REGISTER) ======================== -->
+  <div id="view-auth" class="view">
+    <div class="view-container auth-container">
+      <div class="auth-card glass-card tile-texture">
+        <div class="auth-header">
+          <div class="auth-devanagari">स्वागतम्</div>
+          <h2 class="auth-title font-serif">Enter Your Sanctuary</h2>
+          <p class="auth-subtitle">Preserve your sacred journey, journal reflections, and personalized rhythm across sessions.</p>
+        </div>
+
+        <div class="auth-tabs">
+          <button class="auth-tab-btn active" id="tab-login-btn" onclick="switchAuthTab('login')">Sign In</button>
+          <button class="auth-tab-btn" id="tab-register-btn" onclick="switchAuthTab('register')">Create Account</button>
+        </div>
+
+        <!-- Sign In Form -->
+        <form class="auth-form" id="form-login" onsubmit="handleLoginSubmit(event)">
+          <div class="form-group">
+            <label class="form-label" for="login-email">Email or Username</label>
+            <input type="text" id="login-email" class="form-input" placeholder="e.g. seeker@laya.sanctuary or your name" required />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="login-password">Password</label>
+            <div class="input-password-wrap">
+              <input type="password" id="login-password" class="form-input" placeholder="Your password" required />
+              <button type="button" class="btn-toggle-pw" onclick="togglePasswordVisibility('login-password')">👁️</button>
+            </div>
+          </div>
+          <div class="form-remember-row">
+            <label class="checkbox-label">
+              <input type="checkbox" id="login-remember" checked />
+              <span>Remember me on this sanctuary device</span>
+            </label>
+            <a href="javascript:void(0)" class="auth-link" onclick="demoPasswordHint()">Need help?</a>
+          </div>
+          <button type="submit" class="btn-primary auth-submit-btn">
+            <span>Enter Sanctuary</span>
+            <span>&rarr;</span>
+          </button>
+          <div class="auth-divider">
+            <span>OR EXPERIENCE FREELY</span>
+          </div>
+          <button type="button" class="btn-glass auth-guest-btn" onclick="handleGuestLogin()">
+            <span>🪷</span>
+            <span>Continue as Guest Seeker (Instant)</span>
+          </button>
+        </form>
+
+        <!-- Register Form -->
+        <form class="auth-form hidden" id="form-register" onsubmit="handleRegisterSubmit(event)">
+          <div class="form-group">
+            <label class="form-label" for="reg-name">Your Name / Spiritual Name</label>
+            <input type="text" id="reg-name" class="form-input" placeholder="What should Priya call you? e.g. Aarav, Maya" required />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="reg-email">Email Address</label>
+            <input type="email" id="reg-email" class="form-input" placeholder="seeker@domain.com" required />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="reg-password">Create Password</label>
+            <div class="input-password-wrap">
+              <input type="password" id="reg-password" class="form-input" placeholder="At least 6 characters" minlength="6" required />
+              <button type="button" class="btn-toggle-pw" onclick="togglePasswordVisibility('reg-password')">👁️</button>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="reg-sankalpa">Primary Sankalpa (Spiritual Intention)</label>
+            <select id="reg-sankalpa" class="form-select">
+              <option value="Finding inner stillness & grounding">🪷 Finding inner stillness & grounding</option>
+              <option value="Releasing overwhelm & anxiety">🌊 Releasing overwhelm & anxiety</option>
+              <option value="Deepening study of Gyaan & philosophy">📜 Deepening study of Gyaan & philosophy</option>
+              <option value="Cultivating gratitude & mindful presence">🌿 Cultivating gratitude & mindful presence</option>
+              <option value="Living in alignment with Svadharma">☀️ Living in alignment with Svadharma (True Calling)</option>
+            </select>
+          </div>
+          <button type="submit" class="btn-primary auth-submit-btn">
+            <span>Begin My Sacred Journey</span>
+            <span>&rarr;</span>
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================== PROFILE VIEW ======================== -->
+  <div id="view-profile" class="view">
+    <div class="view-container profile-container">
+      <div class="view-header">
+        <button class="back-btn" onclick="showView('home')">&larr; Return to Sanctuary</button>
+        <span class="section-tag">SEEKER SANCTUARY PROFILE</span>
+        <h2 class="view-title">Personal Rhythm & Profile</h2>
+        <p class="view-subtitle">Tailor your name, sacred intentions, elemental affinity, and sanctuary preferences.</p>
+      </div>
+
+      <!-- Profile Hero Card -->
+      <div class="profile-hero-card glass-card tile-texture">
+        <div class="profile-hero-inner">
+          <div class="profile-avatar-wrapper">
+            <div class="profile-avatar-circle" id="profile-avatar-large" onclick="openAvatarModal()" title="Click to change your avatar">
+              <span id="profile-avatar-icon">🪷</span>
+            </div>
+            <button class="profile-avatar-edit-badge" onclick="openAvatarModal()" title="Change sacred icon">✎</button>
+          </div>
+          <div class="profile-hero-info">
+            <div class="profile-title-row">
+              <h3 class="profile-name-text font-serif" id="profile-name-display">Aarav</h3>
+              <span class="profile-badge-pill" id="profile-dosha-badge">Tridoshic Harmonic</span>
+            </div>
+            <p class="profile-email-text" id="profile-email-display">seeker@laya.sanctuary</p>
+            <div class="profile-sankalpa-box">
+              <span class="sankalpa-quote-mark">“</span>
+              <span id="profile-sankalpa-display">Walking through life with gentle presence and non-attachment.</span>
+              <span class="sankalpa-quote-mark">”</span>
+            </div>
+          </div>
+          <div class="profile-hero-actions">
+            <button class="btn-ghost btn-signout" onclick="handleLogout()" title="Sign out of this session">
+              <span>Sign Out</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sanctuary Journey Stats -->
+      <div class="profile-stats-grid">
+        <div class="stat-card glass-card">
+          <div class="stat-icon">🪷</div>
+          <div class="stat-value font-serif" id="stat-mindful-streak">1 Day</div>
+          <div class="stat-label">Mindful Presence Streak</div>
+        </div>
+        <div class="stat-card glass-card">
+          <div class="stat-icon">🌿</div>
+          <div class="stat-value font-serif" id="stat-total-checkins">0</div>
+          <div class="stat-label">Emotions Witnessed</div>
+        </div>
+        <div class="stat-card glass-card">
+          <div class="stat-icon">📖</div>
+          <div class="stat-value font-serif" id="stat-total-reflections">0</div>
+          <div class="stat-label">Journal Reflections</div>
+        </div>
+        <div class="stat-card glass-card">
+          <div class="stat-icon">♫</div>
+          <div class="stat-value font-serif" id="stat-prana-cycles">0</div>
+          <div class="stat-label">Pranayama Cycles</div>
+        </div>
+      </div>
+
+      <!-- Customization Form Sections -->
+      <div class="profile-edit-grid">
+        <!-- Section 1: Sacred Identity -->
+        <div class="profile-section-card glass-card">
+          <div class="section-card-header">
+            <span class="section-card-num">01</span>
+            <h4 class="section-card-title font-serif">Sacred Identity</h4>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="edit-profile-name">Seeker Name / Spiritual Name</label>
+            <input type="text" id="edit-profile-name" class="form-input" placeholder="Your name" />
+            <span class="form-hint">Priya AI and your journal will address you by this name.</span>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="edit-profile-title">Spiritual Title or Pronouns</label>
+            <input type="text" id="edit-profile-title" class="form-input" placeholder="e.g. Seeker of Truth, she/her, they/them" />
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="edit-profile-sankalpa">Your Sankalpa (Living Intention)</label>
+            <textarea id="edit-profile-sankalpa" class="form-textarea" rows="3" placeholder="A single phrase or intention you wish to anchor your days into..."></textarea>
+          </div>
+        </div>
+
+        <!-- Section 2: Elemental Resonance & Ayurveda -->
+        <div class="profile-section-card glass-card">
+          <div class="section-card-header">
+            <span class="section-card-num">02</span>
+            <h4 class="section-card-title font-serif">Ayurvedic Resonance (Dosha)</h4>
+          </div>
+          <p class="form-hint" style="margin-bottom:14px;">Select the elemental energy that feels most prominent in you currently:</p>
+
+          <div class="dosha-selector-grid">
+            <label class="dosha-option">
+              <input type="radio" name="profile-dosha" value="Vata (Air & Ether)" />
+              <div class="dosha-card">
+                <span class="dosha-icon">🌬️</span>
+                <strong>Vata</strong>
+                <span>Air & Ether · Creative, intuitive, light</span>
+              </div>
+            </label>
+            <label class="dosha-option">
+              <input type="radio" name="profile-dosha" value="Pitta (Fire & Water)" />
+              <div class="dosha-card">
+                <span class="dosha-icon">🔥</span>
+                <strong>Pitta</strong>
+                <span>Fire & Water · Focused, discerning, fiery</span>
+              </div>
+            </label>
+            <label class="dosha-option">
+              <input type="radio" name="profile-dosha" value="Kapha (Earth & Water)" />
+              <div class="dosha-card">
+                <span class="dosha-icon">⛰️</span>
+                <strong>Kapha</strong>
+                <span>Earth & Water · Grounded, nurturing, calm</span>
+              </div>
+            </label>
+            <label class="dosha-option">
+              <input type="radio" name="profile-dosha" value="Tridoshic Harmony" checked />
+              <div class="dosha-card">
+                <span class="dosha-icon">🪷</span>
+                <strong>Tridoshic</strong>
+                <span>Harmonic Balance · Equanimity across elements</span>
+              </div>
+            </label>
+          </div>
+        </div>
+
+        <!-- Section 3: Sanctuary Environment -->
+        <div class="profile-section-card glass-card">
+          <div class="section-card-header">
+            <span class="section-card-num">03</span>
+            <h4 class="section-card-title font-serif">Sanctuary Rhythm & Audio</h4>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="edit-default-sound">Preferred Ambient Atmosphere</label>
+            <select id="edit-default-sound" class="form-select">
+              <option value="tanpura">Tanpura Drone (Harmonic Sa-Pa)</option>
+              <option value="bowl">Tibetan Singing Bowl Resonance</option>
+              <option value="rain">Temple Monsoon Rain (Grounding)</option>
+              <option value="om">108 Hz Sacred Om Resonance</option>
+              <option value="off">Silence / Natural Breath</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="edit-sacred-hour">Daily Sacred Hour (Sandhya)</label>
+            <select id="edit-sacred-hour" class="form-select">
+              <option value="Brahma Muhurta (Dawn · 5:30 AM)">Brahma Muhurta (Dawn · 5:30 AM)</option>
+              <option value="Madhyahna (Midday Stillness · 12:00 PM)">Madhyahna (Midday Stillness · 12:00 PM)</option>
+              <option value="Sandhya (Twilight Sunset · 6:30 PM)" selected>Sandhya (Twilight Sunset · 6:30 PM)</option>
+              <option value="Ratri (Night Contemplation · 9:30 PM)">Ratri (Night Contemplation · 9:30 PM)</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="edit-priya-tone">Priya AI Companion Style</label>
+            <select id="edit-priya-tone" class="form-select">
+              <option value="meditative" selected>Meditative & Poetic (Gentle presence and Upanishadic metaphors)</option>
+              <option value="philosophical">Philosophical Inquirer (Socratic self-inquiry & Atma-Vichara)</option>
+              <option value="practical">Practical & Grounding (Clear actionable steps for nervous system)</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Section 4: Privacy & Sanctuary Data -->
+        <div class="profile-section-card glass-card">
+          <div class="section-card-header">
+            <span class="section-card-num">04</span>
+            <h4 class="section-card-title font-serif">Data Sovereignty</h4>
+          </div>
+          <p class="form-hint" style="margin-bottom:18px;">
+            Your sanctuary records belong exclusively to you. All journals, check-in histories, and preferences live safely in your browser.
+          </p>
+          <div class="data-actions-row">
+            <button class="btn-glass" onclick="exportSanctuaryData()">
+              <span>📥 Export Sanctuary Backup (JSON)</span>
+            </button>
+            <button class="btn-ghost" onclick="clearSanctuaryData()" style="color:#C53030;border-color:rgba(197,48,48,0.2);">
+              <span>Reset Local Records</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Save Profile Button Bar -->
+      <div class="profile-save-bar">
+        <span class="save-status-text" id="profile-save-status">All changes saved locally.</span>
+        <button class="btn-primary" onclick="saveProfileChanges()">
+          <span>Save Profile Changes</span>
+          <span>✓</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================== AVATAR PICKER MODAL ======================== -->
+  <div class="modal-backdrop" id="avatar-modal" style="display:none;" onclick="handleAvatarBackdropClick(event)">
+    <div class="modal-card glass-card" style="max-width:480px;">
+      <div class="modal-header">
+        <div class="modal-title-wrap">
+          <span class="modal-badge">SACRED ICONOGRAPHY</span>
+          <h3 class="modal-title">Choose Your Sacred Icon</h3>
+        </div>
+        <button class="modal-close-btn" onclick="closeAvatarModal()">✕</button>
+      </div>
+      <div class="modal-body">
+        <p class="modal-desc">Select an auspicious emblem to represent your soul's current season in the sanctuary:</p>
+        <div class="avatar-selection-grid" id="avatar-selection-grid"></div>
+        <div class="custom-avatar-wrap">
+          <label class="form-label" for="custom-avatar-input">Or enter any custom emoji / initial:</label>
+          <div class="input-with-button">
+            <input type="text" id="custom-avatar-input" class="form-input" maxlength="2" placeholder="e.g. 🌸 or A" />
+            <button class="btn-primary" onclick="applyCustomAvatar()">Apply</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================== AI AGENT SETTINGS MODAL ======================== -->
+  <div class="modal-backdrop" id="ai-modal" style="display:none;" onclick="handleModalBackdropClick(event)">
+    <div class="modal-card glass-card">
+      <div class="modal-header">
+        <div class="modal-title-wrap">
+          <span class="modal-badge">PRIYA COGNITIVE ARCHITECTURE</span>
+          <h3 class="modal-title">AI Agent Settings</h3>
+        </div>
+        <button class="modal-close-btn" onclick="closeAiSettingsModal()">✕</button>
+      </div>
+      <div class="modal-body">
+        <p class="modal-desc">
+          Priya is equipped with a high-fidelity <strong>Built-In Contemplative Engine</strong> that operates completely offline. You can also connect your own <strong>Google Gemini API Key</strong> for limitless, open-ended conversational intelligence.
+        </p>
+
+        <div class="setting-group">
+          <label class="setting-label">AI Engine Mode</label>
+          <div class="setting-options">
+            <label class="radio-option">
+              <input type="radio" name="ai-engine" value="builtin" checked onchange="toggleEngineType('builtin')"/>
+              <div>
+                <strong>Built-In LAYA Engine</strong>
+                <span>Instant, zero-cost, private offline reasoning</span>
+              </div>
+            </label>
+            <label class="radio-option">
+              <input type="radio" name="ai-engine" value="gemini" onchange="toggleEngineType('gemini')"/>
+              <div>
+                <strong>Google Gemini 1.5 / 2.0 Flash</strong>
+                <span>Direct LLM streaming with full philosophical recall</span>
+              </div>
+            </label>
+          </div>
+        </div>
+
+        <div class="setting-group" id="gemini-key-group" style="display:none;">
+          <label class="setting-label" for="gemini-api-key">Gemini API Key</label>
+          <div class="input-with-button">
+            <input type="password" id="gemini-api-key" class="setting-input" placeholder="AIzaSy..." />
+            <button class="btn-glass" onclick="toggleKeyVisibility()">Show</button>
+          </div>
+          <span class="setting-hint">Your API key is saved strictly in your browser's private local storage. Never sent to any third-party server.</span>
+        </div>
+
+        <div class="setting-group">
+          <label class="setting-label">Companion Voice Cadence</label>
+          <select id="voice-speed-select" class="setting-select" onchange="updateVoiceSpeed(this.value)">
+            <option value="0.85">Meditative & Gentle (0.85x speed)</option>
+            <option value="1.0" selected>Balanced Warmth (1.0x speed)</option>
+            <option value="1.15">Light & Clear (1.15x speed)</option>
+          </select>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-ghost" onclick="testAiConnection()">Test Connection</button>
+        <button class="btn-primary" onclick="saveAiSettings()">Save Settings</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
