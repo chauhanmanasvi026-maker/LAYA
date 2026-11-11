@@ -203,7 +203,7 @@
           </div>
           <div class="feature-meta">AWARENESS</div>
           <h3 class="feature-title">Emotional Check-In</h3>
-          <p class="feature-desc">Map your daily emotional weather across 12 nuanced states and intensity levels. Priya AI learns your rhythm.</p>
+          <p class="feature-desc">Map your daily emotional weather across 12 nuanced states and intensity levels. Manas AI learns your rhythm.</p>
           <div class="feature-footer">
             <span class="feature-action">Check in now</span>
             <span class="feature-arrow">&#8594;</span>
@@ -222,10 +222,10 @@
             </svg>
           </div>
           <div class="feature-meta">INTELLIGENT COMPANION</div>
-          <h3 class="feature-title">Priya AI Guide</h3>
+          <h3 class="feature-title">Manas AI Guide</h3>
           <p class="feature-desc">An active listener blending cognitive empathy, Upanishadic insight, and customized reflection. Direct Gemini AI ready.</p>
           <div class="feature-footer">
-            <span class="feature-action">Speak with Priya</span>
+            <span class="feature-action">Speak with Manas</span>
             <span class="feature-arrow">&#8594;</span>
           </div>
         </div>
@@ -262,7 +262,7 @@
           </div>
           <div class="feature-meta">PRIVATE SANCTUARY</div>
           <h3 class="feature-title">Reflection Journal</h3>
-          <p class="feature-desc">Encrypted in your browser storage. Ask Priya AI to generate a compassionate commentary or Ayurvedic perspective on your notes.</p>
+          <p class="feature-desc">Encrypted in your browser storage. Ask Manas AI to generate a compassionate commentary or Ayurvedic perspective on your notes.</p>
           <div class="feature-footer">
             <span class="feature-action">Open notebook</span>
             <span class="feature-arrow">&#8594;</span>
@@ -359,7 +359,7 @@
         </div>
         <div class="footer-links">
           <button onclick="showView('checkin')">Check-In</button>
-          <button onclick="showView('companion')">Priya AI</button>
+          <button onclick="showView('companion')">Manas AI</button>
           <button onclick="showView('gyaan')">Gyaan Library</button>
           <button onclick="showView('journal')">Journal</button>
           <button onclick="openAiSettingsModal()">AI Settings</button>
@@ -438,9 +438,9 @@
           <p class="result-message" id="result-message"></p>
           <div class="result-wisdom-box" id="result-wisdom"></div>
           <div class="result-actions">
-            <button class="btn-primary" onclick="talkToPriyaAboutMood()">
+            <button class="btn-primary" onclick="talkToManasAboutMood()">
               <span class="ai-dot"></span>
-              Discuss with Priya AI
+              Discuss with Manas AI
             </button>
             <button class="btn-glass" onclick="writeJournalFromCheckin()">
               Reflect in Journal
@@ -483,7 +483,7 @@
           </div>
           <div>
             <div class="companion-name-row">
-              <span class="companion-name">Priya</span>
+              <span class="companion-name">Manas</span>
               <span class="companion-ai-tag" id="companion-ai-tag">Built-in AI</span>
             </div>
             <span class="companion-status">Holding space for your thoughts & feelings</span>
@@ -537,7 +537,7 @@
           </div>
         </div>
         <p class="chat-disclaimer">
-          Priya is a compassionate wellness AI rooted in contemplative wisdom, not a clinical healthcare provider.
+          Manas is a compassionate wellness AI rooted in contemplative wisdom, not a clinical healthcare provider.
         </p>
       </div>
     </div>
@@ -570,7 +570,7 @@
           ✦ What project or relationship are you trying to micromanage right now? What would happen if you focused only on your loving effort?
         </div>
         <div class="gyaan-featured-actions">
-          <button class="btn-primary" onclick="talkToPriyaAboutVerse()">Reflect with Priya AI</button>
+          <button class="btn-primary" onclick="talkToManasAboutVerse()">Reflect with Manas AI</button>
           <button class="btn-glass" onclick="refreshDailyWisdom()">New Wisdom &#8635;</button>
         </div>
       </div>
@@ -639,9 +639,9 @@
             <div class="editor-meta-bar">
               <span id="entry-date-display" class="entry-date-badge"></span>
               <div class="editor-actions">
-                <button class="editor-tool-btn ai-reflect-btn" onclick="askPriyaToReflectOnEntry()" title="Ask Priya AI to reflect on this journal entry">
+                <button class="editor-tool-btn ai-reflect-btn" onclick="askManasToReflectOnEntry()" title="Ask Manas AI to reflect on this journal entry">
                   <span class="ai-sparkle">✦</span>
-                  <span>Ask Priya AI</span>
+                  <span>Ask Manas AI</span>
                 </button>
                 <button class="editor-tool-btn" onclick="saveEntry()" title="Save Entry">
                   <span>Save</span>
@@ -662,13 +662,13 @@
 
           <textarea id="entry-body" class="entry-body" placeholder="Write freely without editing yourself. What is present in you right now?"></textarea>
 
-          <!-- Priya's AI Reflection Container (Appears when user clicks Ask Priya AI) -->
-          <div class="priya-reflection-box hidden" id="priya-reflection-box">
-            <div class="priya-reflection-header">
-              <span class="priya-tag">✦ PRIYA'S REFLECTION & WISDOM</span>
-              <button class="close-reflection-btn" onclick="closePriyaReflection()">✕</button>
+          <!-- Manas's AI Reflection Container (Appears when user clicks Ask Manas AI) -->
+          <div class="manas-reflection-box hidden" id="manas-reflection-box">
+            <div class="manas-reflection-header">
+              <span class="manas-tag">✦ MANAS'S REFLECTION & WISDOM</span>
+              <button class="close-reflection-btn" onclick="closeManasReflection()">✕</button>
             </div>
-            <div class="priya-reflection-text" id="priya-reflection-text"></div>
+            <div class="manas-reflection-text" id="manas-reflection-text"></div>
           </div>
 
           <div class="editor-footer">
@@ -784,7 +784,7 @@
         <form class="auth-form hidden" id="form-register" onsubmit="handleRegisterSubmit(event)">
           <div class="form-group">
             <label class="form-label" for="reg-name">Your Name / Spiritual Name</label>
-            <input type="text" id="reg-name" class="form-input" placeholder="What should Priya call you? e.g. Aarav, Maya" required />
+            <input type="text" id="reg-name" class="form-input" placeholder="Manas" required />
           </div>
           <div class="form-group">
             <label class="form-label" for="reg-email">Email Address</label>
@@ -891,7 +891,7 @@
           <div class="form-group">
             <label class="form-label" for="edit-profile-name">Seeker Name / Spiritual Name</label>
             <input type="text" id="edit-profile-name" class="form-input" placeholder="Your name" />
-            <span class="form-hint">Priya AI and your journal will address you by this name.</span>
+            <span class="form-hint">Manas AI and your journal will address you by this name.</span>
           </div>
 
           <div class="form-group">
@@ -978,7 +978,7 @@
           </div>
 
           <div class="form-group">
-            <label class="form-label" for="edit-priya-tone">Priya AI Companion Style</label>
+            <label class="form-label" for="edit-priya-tone">Manas AI Companion Style</label>
             <select id="edit-priya-tone" class="form-select">
               <option value="meditative" selected>Meditative & Poetic (Gentle presence and Upanishadic metaphors)</option>
               <option value="philosophical">Philosophical Inquirer (Socratic self-inquiry & Atma-Vichara)</option>
@@ -1047,14 +1047,14 @@
     <div class="modal-card glass-card">
       <div class="modal-header">
         <div class="modal-title-wrap">
-          <span class="modal-badge">PRIYA COGNITIVE ARCHITECTURE</span>
+          <span class="modal-badge">MANAS COGNITIVE ARCHITECTURE</span>
           <h3 class="modal-title">AI Agent Settings</h3>
         </div>
         <button class="modal-close-btn" onclick="closeAiSettingsModal()">✕</button>
       </div>
       <div class="modal-body">
         <p class="modal-desc">
-          Priya is equipped with a high-fidelity <strong>Built-In Contemplative Engine</strong> that operates completely offline. You can also connect your own <strong>Google Gemini API Key</strong> for limitless, open-ended conversational intelligence.
+          Manas is equipped with a high-fidelity <strong>Built-In Contemplative Engine</strong> that operates completely offline. You can also connect your own <strong>Google Gemini API Key</strong> for limitless, open-ended conversational intelligence.
         </p>
 
         <div class="setting-group">

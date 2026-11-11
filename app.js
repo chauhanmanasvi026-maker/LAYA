@@ -746,7 +746,7 @@ function renderCheckinHistory() {
   }).join('');
 }
 
-function talkToPriyaAboutMood() {
+function talkToManasAboutMood() {
   const latest = state.checkin.history[0];
   if (!latest) return;
   showView('companion');
@@ -786,7 +786,7 @@ function initCompanion() {
   // Initial welcome message if chat empty
   if (state.chat.messages.length === 0) {
     const seekerName = state.user?.isLoggedIn && state.user?.name ? state.user.name : 'dear seeker';
-    addPriyaMessage(`Namaste, ${seekerName}. I am Priya — your sanctuary guide at LAYA. I am here to listen with deep presence, untangled from judgment. How does your soul feel in this quiet moment?`);
+    addManasMessage(`Namaste, ${seekerName}. I am Manas — your sanctuary guide at LAYA. I am here to listen with deep presence, untangled from judgment. How does your soul feel in this quiet moment?`);
   }
 
   renderSuggestions([
@@ -798,9 +798,9 @@ function initCompanion() {
   ]);
 }
 
-function addPriyaMessage(text) {
+function addManasMessage(text) {
   state.chat.messages.push({
-    role: 'priya',
+    role: 'manas',
     text: text,
     timestamp: new Date().toISOString()
   });
@@ -823,7 +823,7 @@ function saveChat() {
 }
 
 function clearChatHistory() {
-  if (confirm("Clear your conversation history with Priya?")) {
+  if (confirm("Clear your conversation history with Manas?")) {
     state.chat.messages = [];
     saveChat();
     initCompanion();
@@ -835,7 +835,7 @@ function renderChatMessages() {
   if (!win) return;
 
   win.innerHTML = state.chat.messages.map((msg, i) => {
-    const isPriya = msg.role === 'priya';
+    const isManas = msg.role === 'manas';
     const dt = new Date(msg.timestamp);
     const timeStr = dt.toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' });
 
@@ -846,15 +846,15 @@ function renderChatMessages() {
       .replace(/\n/g, '<br/>');
 
     return `
-      <div class="chat-bubble-wrap ${isPriya ? 'priya' : 'user'}">
+      <div class="chat-bubble-wrap ${isManas ? 'manas' : 'user'}">
         <div class="bubble-avatar">
-          ${isPriya ? '🪷' : 'You'}
+          ${isManas ? '🪷' : 'You'}
         </div>
         <div class="bubble-content">
           <div class="bubble-text">${formatted}</div>
           <div class="bubble-meta">
             <span>${timeStr}</span>
-            ${isPriya ? `<button class="bubble-speak-btn" onclick="speakText('${encodeURIComponent(msg.text)}')" title="Listen to Priya">🔊</button>` : ''}
+            ${isManas ? `<button class="bubble-speak-btn" onclick="speakText('${encodeURIComponent(msg.text)}')" title="Listen to Manas">🔊</button>` : ''}
           </div>
         </div>
       </div>
@@ -863,7 +863,7 @@ function renderChatMessages() {
 
   if (state.chat.isTyping) {
     win.innerHTML += `
-      <div class="chat-bubble-wrap priya">
+      <div class="chat-bubble-wrap manas">
         <div class="bubble-avatar">🪷</div>
         <div class="bubble-content">
           <div class="typing-dots">
@@ -923,18 +923,18 @@ async function sendMessage() {
     try {
       const geminiReply = await queryGeminiApi(userText);
       state.chat.isTyping = false;
-      addPriyaMessage(geminiReply);
+      addManasMessage(geminiReply);
       return;
     } catch (err) {
-      console.warn("Gemini API call failed, falling back to built-in Priya engine:", err);
+      console.warn("Gemini API call failed, falling back to built-in Manas engine:", err);
     }
   }
 
   // Built-in Contemplative AI Engine
   setTimeout(() => {
-    const reply = generateBuiltInPriyaResponse(userText);
+    const reply = generateBuiltInManasResponse(userText);
     state.chat.isTyping = false;
-    addPriyaMessage(reply);
+    addManasMessage(reply);
 
     // Provide contextual suggestion chips
     const suggestions = getContextualFollowups(userText);
@@ -942,7 +942,7 @@ async function sendMessage() {
   }, 1000 + Math.random() * 800);
 }
 
-function generateBuiltInPriyaResponse(prompt) {
+function generateBuiltInManasResponse(prompt) {
   const lower = prompt.toLowerCase();
   const latestCheckin = state.checkin.history[0];
 
@@ -1016,7 +1016,7 @@ async function queryGeminiApi(userPrompt) {
   const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
 
   // Build conversational memory and system prompt
-  const systemInstruction = `You are Priya, the compassionate LAYA sanctuary guide and contemplative AI companion.
+  const systemInstruction = `You are Manas, the compassionate LAYA sanctuary guide and contemplative AI companion.
 Your voice is warm, gentle, poetic, and deeply rooted in Indian philosophical wisdom (Vedanta, Bhagavad Gita, Upanishads, Patanjali Yoga Sutras, and Buddhist mindfulness) blended with modern empathetic psychology.
 You speak with presence, non-judgmental space-holding, and clarity.
 Never sound clinical, corporate, or mechanical.
@@ -1211,7 +1211,7 @@ function selectGyaanCard(id) {
   }
 }
 
-function talkToPriyaAboutVerse() {
+function talkToManasAboutVerse() {
   const w = GYAAN_LIBRARY[state.gyaan.featuredIndex];
   showView('companion');
   document.getElementById('chat-input').value = `I was contemplating this verse from ${w.source}: "${w.text}". How can I apply its wisdom to my daily life?`;
@@ -1294,7 +1294,7 @@ function openJournalEntry(id) {
   promptText.textContent = entry.prompt || JOURNAL_PROMPTS[0];
 
   // Close previous AI reflection box
-  document.getElementById('priya-reflection-box').classList.add('hidden');
+  document.getElementById('manas-reflection-box').classList.add('hidden');
 
   updateEditorCounts();
   renderJournalList();
@@ -1379,17 +1379,17 @@ function saveJournal() {
   localStorage.setItem('laya_journal_entries', JSON.stringify(state.journal.entries));
 }
 
-async function askPriyaToReflectOnEntry() {
+async function askManasToReflectOnEntry() {
   const entry = state.journal.entries.find(e => e.id === state.journal.activeEntryId);
   if (!entry || !entry.body.trim()) {
-    alert("Please write a few thoughts first so Priya has context to reflect upon.");
+    alert("Please write a few thoughts first so Manas has context to reflect upon.");
     return;
   }
 
-  const box = document.getElementById('priya-reflection-box');
-  const textEl = document.getElementById('priya-reflection-text');
+  const box = document.getElementById('manas-reflection-box');
+  const textEl = document.getElementById('manas-reflection-text');
   box.classList.remove('hidden');
-  textEl.innerHTML = `<em>Priya is reading your reflection with loving attention...</em>`;
+  textEl.innerHTML = `<em>Manas is reading your reflection with loving attention...</em>`;
 
   const query = `Here is my private journal entry titled "${entry.title || 'Untitled'}":\n\n"${entry.body}"\n\nPlease offer a short, empathetic commentary from a Vedic/mindful perspective to help me deepen my awareness.`;
 
@@ -1398,7 +1398,7 @@ async function askPriyaToReflectOnEntry() {
     if (state.ai.engine === 'gemini' && state.ai.geminiKey) {
       reply = await queryGeminiApi(query);
     } else {
-      reply = generateJournalPriyaReflection(entry.body);
+      reply = generateJournalManasReflection(entry.body);
     }
     textEl.innerHTML = reply.replace(/\n/g, '<br/>');
   } catch (e) {
@@ -1406,12 +1406,12 @@ async function askPriyaToReflectOnEntry() {
   }
 }
 
-function generateJournalPriyaReflection(text) {
+function generateJournalManasReflection(text) {
   return `Thank you for holding mirror to your inner world. In reading your words, I sense a deep yearning for alignment and truth.\n\nIn the tradition of Swadhyaya (self-study), writing down your thoughts acts as an alchemy that turns unexamined emotion into golden wisdom. Notice how releasing these words onto the page already gives you a small vantage point of freedom.\n\nTake one conscious breath and thank yourself for this honesty. You are listening to your own soul.`;
 }
 
-function closePriyaReflection() {
-  document.getElementById('priya-reflection-box').classList.add('hidden');
+function closeManasReflection() {
+  document.getElementById('manas-reflection-box').classList.add('hidden');
 }
 
 /* ────────────────────────────────────────────────────
@@ -1780,7 +1780,7 @@ function handleRegisterSubmit(event) {
     dosha: 'Tridoshic Harmony',
     defaultSound: 'tanpura',
     sacredHour: 'Sandhya (Twilight Sunset · 6:30 PM)',
-    priyaTone: 'meditative',
+    manasTone: 'meditative',
     isLoggedIn: true,
     createdAt: new Date().toISOString()
   };
@@ -1847,14 +1847,14 @@ function initProfile() {
   const editSankalpa = document.getElementById('edit-profile-sankalpa');
   const editSound = document.getElementById('edit-default-sound');
   const editHour = document.getElementById('edit-sacred-hour');
-  const editTone = document.getElementById('edit-priya-tone');
+  const editTone = document.getElementById('edit-manas-tone');
 
   if (editName) editName.value = state.user.name || '';
   if (editTitle) editTitle.value = state.user.title || '';
   if (editSankalpa) editSankalpa.value = state.user.sankalpa || '';
   if (editSound) editSound.value = state.user.defaultSound || 'tanpura';
   if (editHour) editHour.value = state.user.sacredHour || 'Sandhya (Twilight Sunset · 6:30 PM)';
-  if (editTone) editTone.value = state.user.priyaTone || 'meditative';
+  if (editTone) editTone.value = state.user.manasTone || 'meditative';
 
   // Dosha radio selection
   const doshaRadios = document.getElementsByName('profile-dosha');
@@ -1912,7 +1912,7 @@ function saveProfileChanges() {
   const sankalpaInput = document.getElementById('edit-profile-sankalpa').value.trim();
   const soundSelect = document.getElementById('edit-default-sound').value;
   const hourSelect = document.getElementById('edit-sacred-hour').value;
-  const toneSelect = document.getElementById('edit-priya-tone').value;
+  const toneSelect = document.getElementById('edit-manas-tone').value;
 
   const selectedDoshaRadio = document.querySelector('input[name="profile-dosha"]:checked');
   const doshaValue = selectedDoshaRadio ? selectedDoshaRadio.value : (state.user.dosha || 'Tridoshic Harmony');
@@ -1930,7 +1930,7 @@ function saveProfileChanges() {
     dosha: doshaValue,
     defaultSound: soundSelect,
     sacredHour: hourSelect,
-    priyaTone: toneSelect,
+    manasTone: toneSelect,
     isLoggedIn: true
   };
 
@@ -2075,12 +2075,12 @@ function applyTheme(theme, notify = true) {
   if (isDark) {
     body.classList.add('dark-theme');
     if (themeIcon) themeIcon.textContent = '☀️';
-    if (themeLabel) themeLabel.textContent = 'Surya Light';
+    if (themeLabel) themeLabel.textContent = 'Light Mode';
     if (toggleBtn) {
       toggleBtn.classList.add('is-dark');
-      toggleBtn.title = 'Switch to Surya Sage light theme';
+      toggleBtn.title = 'Switch to Dark Mode';
     }
-    if (mobileThemeBtn) mobileThemeBtn.textContent = '☀️ Switch to Surya Light Theme';
+    if (mobileThemeBtn) mobileThemeBtn.textContent = '☀️ Switch to Light Mode';
     localStorage.setItem('laya_theme', 'dark');
     if (notify) showThemeToast('🪷 Nilotpala Sanctuary active · Blue Lotus & Lavender dark theme');
   } else {
